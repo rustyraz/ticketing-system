@@ -1,0 +1,21 @@
+{
+  "name": "ticketing-system",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter api build",
+    "dev:packages": "pnpm --filter \"./packages/*\" --parallel dev",
+    "dev:api": "pnpm --filter api dev",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @ticketing/database db:generate",
+    "db:migrate": "pnpm --filter @ticketing/database db:migrate",
+    "db:studio": "pnpm --filter @ticketing/database db:studio"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  }
+}
+

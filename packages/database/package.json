@@ -1,0 +1,42 @@
+{
+  "name": "@ticketing/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/index.d.ts",
+      "import": "./dist/schema/index.mjs",
+      "require": "./dist/schema/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "db:generate": "XDG_DATA_HOME=${XDG_DATA_HOME:-/tmp} drizzle-kit generate",
+    "db:migrate": "tsx src/migrate.ts",
+    "db:studio": "XDG_DATA_HOME=${XDG_DATA_HOME:-/tmp} drizzle-kit studio"
+  },
+  "dependencies": {
+    "@ticketing/common": "workspace:*",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.35.3",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.2",
+    "drizzle-kit": "^0.26.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
