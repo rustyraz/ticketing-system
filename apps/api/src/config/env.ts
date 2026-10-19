@@ -7,6 +7,11 @@ export const envSchema = z.object({
     .string()
     .default('postgres://postgres:postgres@localhost:5432/ticketing'),
   REDIS_URL: z.string().default('redis://localhost:6379'),
+  JWT_SECRET: z
+    .string()
+    .default('super-secret-jwt-key-for-development-change-in-production-12345'),
+  JWT_ACCESS_EXPIRATION: z.string().default('15m'),
+  JWT_REFRESH_EXPIRATION_SECONDS: z.coerce.number().default(604800),
 });
 
 export type Env = z.infer<typeof envSchema>;
