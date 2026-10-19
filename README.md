@@ -31,7 +31,7 @@ ticketing-system/
 1. **Pure Functional Core:** Domain logic relies on immutable data and the `Result<T, E>` monad ([`packages/common`](./packages/common)), eliminating unexpected mutations and runtime exception bubbling.
 2. **Thin Imperative Shell:** Controllers, HTTP filters, and repository adapters handle I/O, translating domain `Err<DomainError>` into standard RFC-compatible HTTP responses.
 3. **Database-Enforced Invariants:** Correctness does not rely solely on application locks; constraints and partial unique indexes in PostgreSQL provide absolute protection against race conditions.
-4. **Strict Monorepo Isolation:** Managed via `pnpm` with strict dependency isolation. Shared packages are built with `tsup` into dual CJS/ESM outputs with declaration maps, ensuring seamless interop with NestJS's CommonJS runtime.
+4. **Strict Monorepo Isolation:** Managed via `pnpm` with strict dependency isolation. Shared packages are built with `tsdown` (powered by Rolldown) into dual CJS/ESM outputs with declaration maps, ensuring seamless interop with NestJS's CommonJS runtime.
 
 ---
 
@@ -58,7 +58,7 @@ ticketing-system/
 | **Database & ORM** | PostgreSQL 16, Drizzle ORM (`postgres-js` driver) |
 | **Cache & Coordination** | Redis 7 (holds, distributed locks, pub/sub) |
 | **Validation** | Zod (shared schemas between API and future web client) |
-| **Build & Tooling** | `pnpm` (pinned via Corepack), `tsup`, Docker Compose |
+| **Build & Tooling** | `pnpm` (pinned via Corepack), `tsdown` (Rolldown), Docker Compose |
 
 ---
 
@@ -66,7 +66,7 @@ ticketing-system/
 
 ### Prerequisites
 
-- **Node.js**: `v20.12.0` or higher
+- **Node.js**: `v22.0.0` or higher (LTS)
 - **Corepack**: enabled (`corepack enable`)
 - **pnpm**: `v9.12.0` (automatically managed by Corepack)
 - **Docker & Docker Compose**
@@ -151,10 +151,11 @@ Expected response:
 
 | Command | Description |
 |---|---|
-| `pnpm build` | Builds all packages (`tsup`) and the NestJS application (`nest build`) |
+| `pnpm build` | Builds all packages (`tsdown`) and the NestJS application (`nest build`) |
+| `pnpm build:packages` | Compiles only shared packages (`tsdown`) |
 | `pnpm dev:api` | Starts the NestJS API with hot reload (`nest start --watch`) |
-| `pnpm dev:packages` | Runs `tsup --watch` across all shared packages in parallel |
-| `pnpm typecheck` | Runs `tsc --noEmit` across all workspace projects |
+| `pnpm dev:packages` | Runs `tsdown --watch` across all shared packages in parallel |
+| `pnpm typecheck` | Builds packages then runs `tsc --noEmit` across all workspace projects |
 | `pnpm db:generate` | Generates SQL migrations from Drizzle schema definitions |
 | `pnpm db:migrate` | Executes pending migrations against PostgreSQL |
 | `pnpm db:studio` | Launches Drizzle Studio GUI for visual database inspection |

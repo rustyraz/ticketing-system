@@ -20,15 +20,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
-        run: pnpm run typecheck
+      - name: Build packages
+        run: pnpm run build:packages
 
-      - name: Build packages and application
-        run: pnpm run build
+      - name: Typecheck
+        run: pnpm -r typecheck
+
+      - name: Build application
+        run: pnpm --filter api build
 
